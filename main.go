@@ -10,10 +10,23 @@ import (
 
 func main() {
 	app := &cli.App{
-		Name:  "greet",
-		Usage: "fight the loneliness!",
+		Flags: []cli.Flag{
+			&cli.StringFlag{
+				Name:  "lang",
+				Value: "english",
+				Usage: "language for the greeting",
+			},
+		},
 		Action: func(c *cli.Context) error {
-			fmt.Println("Hello friend!")
+			name := "Nefertiti"
+			if c.NArg() > 0 {
+				name = c.Args().Get(0)
+			}
+			if c.String("lang") == "spanish" {
+				fmt.Println("Hola", name)
+			} else {
+				fmt.Println("Hello", name)
+			}
 			return nil
 		},
 	}
